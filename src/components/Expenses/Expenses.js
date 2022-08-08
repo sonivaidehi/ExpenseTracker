@@ -1,21 +1,30 @@
-import ExpenseItem from "./ExpenseItem";
+import ExpensesList from "./ExpensesList";
 import Card from "../UI/Card";
 import ExpensesFilter from "./ExpensesFilter";
-import './Expenses.css'
+import "./Expenses.css";
 import { useState } from "react";
 const Expenses = (props) => {
-  const [selectedYear, setSelectedYear] = useState('')
+  const [selectedYear, setSelectedYear] = useState("2020");
+  // let [expenses, setExpenses] = useState(props.expenses);
   const onExpenseYearChangeHandler = (pSelectedYear) => {
     // console.log(selectedYear);
-    setSelectedYear(pSelectedYear)
-  }
+    // setExpenses(props.expenses)
+    setSelectedYear(pSelectedYear);
+    // setExpenses(props.expenses.filter(expense=> { return expense.date.getFullYear().toString() === pSelectedYear}));
+  };
+
+  const filteredExpenses = props.expenses.filter(
+    (expense) => expense.date.getFullYear().toString() === selectedYear
+  );
+
+
   return (
     <Card classes="expenses">
-      <ExpensesFilter onExpenseYearChange={onExpenseYearChangeHandler} selectedYear={selectedYear}></ExpensesFilter>
-      <ExpenseItem expense={props.expenses[0]} />
-      <ExpenseItem expense={props.expenses[1]} />
-      <ExpenseItem expense={props.expenses[2]} />
-      <ExpenseItem expense={props.expenses[3]} />
+      <ExpensesFilter
+        onExpenseYearChange={onExpenseYearChangeHandler}
+        selectedYear={selectedYear}
+      ></ExpensesFilter>
+      <ExpensesList items={filteredExpenses}/>
     </Card>
   );
 };
